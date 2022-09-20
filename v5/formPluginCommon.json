@@ -1,0 +1,103 @@
+{
+  "grid": [
+    { "id": "p1", "xs": 4, "class": "main", "table": "units" },
+
+    { "id": "p2", "xs": 4, "class": "main", "table": "units" },
+    { "id": "p3", "xs": 4, "class": "main", "table": "units" },
+
+    { "id": "p9", "xs": 12, "class": "main", "table": "unitsTreeTable", "height": "fill" }
+  ],
+
+  "spacing": 10,
+
+  "p1": [
+    {
+      "prop": "host",
+      "title": "IP",
+      "type": "input",
+      "default": "192.168.0.250"
+    },
+
+    {
+      "prop": "port",
+      "title": "Port",
+      "type": "input",
+      "default": "2404"
+    },
+    {
+      "prop": "originatorAddress",
+      "title": "Оriginator address",
+      "type": "input",
+      "default": "1"
+    },
+    {
+      "prop": "k",
+      "title": "Parameter K",
+      "type": "input",
+      "default": "12"
+    },
+    {
+      "prop": "w",
+      "title": "Parameter W",
+      "type": "input",
+      "default": "8"
+    }
+  ],
+
+
+  "p2": [
+    
+    {
+      "prop": "t0",
+      "title": "Parameter T0",
+      "type": "input",
+      "default": "30"
+    },
+    {
+      "prop": "t1",
+      "title": "Parameter T1",
+      "type": "input",
+      "default": "15"
+    },
+    {
+      "prop": "t2",
+      "title": "Parameter T2",
+      "type": "input",
+      "default": "10"
+    },
+    {
+      "prop": "t3",
+      "title": "Parameter T3",
+      "type": "input",
+      "default": "20"
+    }
+  ],
+  "p3": [
+    {
+      "prop": "restarttime",
+      "title": "$Unit_Restarttime",
+      "type": "number",
+      "default": 5
+    },
+    { "prop": "loglevel", "title": "$LogLevel", "type": "droplist", "data": "loglevelList" },
+   
+    { "prop": "txt", "title": "$Comment", "type": "input" }
+  ],
+
+  "p9": [
+    {
+      "title": "",
+      "type": "table",
+      "prop": "unitsTreeTable",
+
+      "columns": [
+        { "prop": "name", "title": "ID", "type": "text", "width": 150 },
+        { "prop": "state", "title": "Состояние", "type": "text", "width": 150 },
+        { "prop": "laststart", "title": "Время запуска", "type": "text", "width": 150 },
+        { "prop": "laststop", "title": "Время останова", "type": "text", "width": 150 },
+        { "prop": "uptime", "title": "Uptime", "type": "text", "width": 150 },
+        { "prop": "error", "title": "Ошибка", "type": "text", "width": 250 }
+      ]
+    }
+  ]
+}

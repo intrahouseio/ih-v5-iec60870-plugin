@@ -1,0 +1,74 @@
+{
+  "grid": [
+    { "id": "p2", "xs": 6, "class": "main", "table": "devhard" },
+    { "id": "p3", "xs": 6, "class": "main", "table": "devhard" },
+    { "id": "p9", "xs": 6, "class": "main", "table": "onechannelrtTable" },
+    { "id": "ptest", "xs": 6, "class": "main", "table": "devhard", "hide": "!data.p3.w" }
+  ],
+  "spacing": 4,
+
+  "p2": [
+    { "prop": "chan", "title": "ID (адрес ASDU)", "type": "input" },
+    { "prop": "title", "title": "$Name", "type": "input" },
+    { "prop": "r", "title": "Чтение", "type": "cb" },
+    { "prop": "calc", "title": "$Devhard_Calc", "type": "input", "hide": "!data.p2.r" },
+    { "prop": "devpropname", "title": "$Devpropname", "type": "input" }
+  ],
+
+  "p3": [
+    { "prop": "w", "title": "Запись", "type": "cb" },
+
+    {
+      "prop": "cmdtype",
+      "title": "Тип команды",
+      "type": "droplist",
+      "hide": "!data.p3.w",
+      "data": [
+        {
+          "id": "45",
+          "title": "C_SC_NA (45)"
+        },
+        {
+          "id": "46",
+          "title": "C_DC_NA (46)"
+        },
+        {
+          "id": "47",
+          "title": "C_RC_NA (47)"
+        },
+        {
+          "id": "48",
+          "title": "C_SE_NA (48)"
+        },
+        {
+          "id": "49",
+          "title": "C_SE_NB (49)"
+        },
+        {
+          "id": "50",
+          "title": "C_SE_NC (50)"
+        }
+      ]
+    },
+
+    { "prop": "waddress", "title": "Aдрес для записи", "type": "input", "hide": "!data.p3.w" }
+  ],
+
+  "p9": [
+    { "prop": "realtime_chan_str", "title": "$realtime_chan_str", "type": "text" },
+    { "prop": "realtime_dev_str", "title": "$realtime_dev_str", "type": "text" }
+  ],
+
+  "ptest": [
+    { "prop": "header_testwrite", "title": "$header_testwrite", "type": "header" },
+    { "prop": "testValue", "title": "$testValue", "type": "input" },
+
+    {
+      "prop": "writeButton",
+      "title": "$doWrite",
+      "type": "button",
+      "command": "writetochannel",
+      "param": "write"
+    }
+  ]
+}

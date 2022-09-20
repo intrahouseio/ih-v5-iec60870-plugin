@@ -1,0 +1,6 @@
+{
+  "description": "Client 60870-104",
+  "module": "lib60870-C/examples/cs104_client/client104",
+  "single": 0,
+  "spawn": 1
+}

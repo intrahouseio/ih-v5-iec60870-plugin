@@ -1,0 +1,6 @@
+{
+  "id":"iec60870p",
+  "description":"Client for 60870-104",
+  "cross":false,
+	"version":"5.5.0"
+}
