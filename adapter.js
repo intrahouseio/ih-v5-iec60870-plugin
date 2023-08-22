@@ -14,14 +14,23 @@ const util = require('util');
 module.exports = {
   // Отдает аргументы для командной строки
   getArgs() {
-    return [this.doc.host, this.doc.port, this.doc.originatorAddress];
+    return [this.doc.host, this.doc.port, this.doc.originatorAddress, 
+            this.doc.k, this.doc.w, this.doc.t0, this.doc.t1, this.doc.t2, this.doc.t3];
   },
 
   // При поступлении данных от плагина
   readStdin(stdin, readMap, holder) {
+    if (this.readMap == undefined) {
+      this.readMap = {};
+      readMap.forEach((value, key) => {
+        if (value.r) {
+          this.readMap[value.ioObjMtype + '_' + value.objAdr] = key
+        }        
+      })
+    }
     let str = stdin.toString();
     if (!str) return;
-
+    //holder.emit('debug', 'plugin_' + this.id, 'readMap = '+util.inspect(this.readMap));
     holder.emit('debug', 'plugin_' + this.id, str); // выдает в отладчик все строки
 
     // Нужно парсить входящие стороки и формировать значения каналов
@@ -30,23 +39,24 @@ module.exports = {
 
     const data = [];
     strArr.forEach(line => {
-      const lineObj = processLine(line);
+      const lineObj = processLine(line, this.readMap);      
       if (lineObj) data.push(lineObj);
     });
     if (data.length) {
-      const type = needUpsert(readMap, data) ? 'upsertChannels' : 'data';
+      //const type = needUpsert(readMap, data) ? 'upsertChannels' : 'data';
+      const type = 'data';
       console.log('TYPE for send: '+type)
       return { type, data };
     }
   },
 
   // При отправке команды плагину
-  // Пока передаю CMD:type adr val
-  writeTele(chanObj) {
-    // holder.emit('debug', 'plugin_' + this.id, 'writeTele '+util.inspect(chanObj));
-    console.log('INFO: writeTele ' + util.inspect(chanObj));
-    if (typeof chanObj == 'object' && chanObj.cmdtype) {
-      return 'CMD: ' + chanObj.cmdtype + ' '+ chanObj.waddress + ' ' + chanObj.value;
+  // Пока передаю CMD:type adr val selCmd ql ts
+  writeTele(chanObj, holder) {
+    holder.emit('debug', 'plugin_' + this.id, 'writeTele '+util.inspect(chanObj));
+    //console.log('INFO: writeTele ' + util.inspect(chanObj));
+    if (typeof chanObj == 'object' && chanObj.ioObjCtype) {
+      return 'CMD: ' + chanObj.ioObjCtype + ' '+ chanObj.objAdr + ' ' + chanObj.value + ' ' + chanObj.selCmd + ' ' + chanObj.ql + ' ' + Date.now();
     }
   }
 };
@@ -57,16 +67,16 @@ function needUpsert(readMap, data) {
   }
 }
 
-function processLine(str) {
+function processLine(str, readMap) {
   // console.log('processLine ' + str);
   str = allTrim(str);
   if (!str.startsWith('{') || !str.endsWith('}')) return;
 
   try {
-    console.log('processLine try parse' + str);
-    const obj = JSON.parse(str);
+    //console.log('processLine try parse' + str);   
+    const obj = JSON.parse(str);  
     const title = getTitle(obj);
-    return { id: String(obj.address), title, ...obj };
+    return { id: readMap[obj.type + '_' + obj.address], title, ...obj };
     // return { ASDU: obj.ASDU, id: obj.address, value: obj.value, chstatus: obj.quality, ts: obj.ts };
   } catch (e) {
     console.log('ERROR: ' + util.inspect(e));

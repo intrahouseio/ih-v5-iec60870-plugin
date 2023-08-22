@@ -1,6 +1,40 @@
 {
   "description": "Client 60870-104",
-  "module": "lib60870-C/examples/cs104_client/client104",
+  "module": "lib60870-C/examples/cs104_client/client104_darwin_arm64",
   "single": 0,
-  "spawn": 1
+  "spawn": 1,
+  "innerId":1,
+
+  "channel_popup": {
+    "add":[
+    { "id": "channel_read", "title": "$ChannelRead" },
+    { "id": "channel_write", "title": "$ChannelWrite" }
+    ],
+    "copypaste":true,
+    "delete":true
+  },
+
+  "channel_folder_popup": {
+    "add":[
+    { "id": "channel_read", "title": "$ChannelRead" },
+    { "id": "channel_write", "title": "$ChannelWrite" }
+    ],
+    "copypaste":true,
+    "delete":true
+  },
+
+
+  "default_channel_read": {
+    "r":1,
+    "title": "Control Object 1",
+    "ioObjMtype":  "1"
+  },
+
+  "default_channel_write": {
+    "w":1,
+    "title": "Command Object 1",
+    "ioObjCtype": "45",
+    "selCmd" : false,
+    "ql": "0"
+  }
 }

@@ -1,26 +1,93 @@
 {
   "grid": [
-    { "id": "p2", "xs": 6, "class": "main", "table": "devhard" },
-    { "id": "p3", "xs": 6, "class": "main", "table": "devhard" },
+    { "id": "p3", "xs": 12, "class": "main", "table": "devhard" },
     { "id": "p9", "xs": 6, "class": "main", "table": "onechannelrtTable" },
-    { "id": "ptest", "xs": 6, "class": "main", "table": "devhard", "hide": "!data.p3.w" }
+    { "id": "ptest", "xs": 12, "class": "main", "table": "devhard", "hide": "!data.p3.w" }
   ],
   "spacing": 4,
 
-  "p2": [
-    { "prop": "chan", "title": "ID (адрес ASDU)", "type": "input" },
-    { "prop": "title", "title": "$Name", "type": "input" },
-    { "prop": "r", "title": "Чтение", "type": "cb" },
-    { "prop": "calc", "title": "$Devhard_Calc", "type": "input", "hide": "!data.p2.r" },
-    { "prop": "devpropname", "title": "$Devpropname", "type": "input" }
-  ],
-
   "p3": [
-    { "prop": "w", "title": "Запись", "type": "cb" },
-
+    { "prop": "objAdr", "title": "Object Address", "type": "number" },
+    { "prop": "title", "title": "$Name", "type": "input" },
+    { "prop": "r", "title": "Чтение", "type": "cb", "hide": "1==1" },
+    { "prop": "w", "title": "Запись", "type": "cb", "hide": "1==1" },
     {
-      "prop": "cmdtype",
-      "title": "Тип команды",
+      "prop": "ioObjMtype",
+      "title": "Information Object",
+      "type": "droplist",
+      "hide": "!data.p3.r",
+      "data": [
+        {
+          "id": "1",
+          "title": "M_SP_NA (1)"
+        },
+        {
+          "id": "3",
+          "title": "M_DP_NA (3)"
+        },
+        {
+          "id": "5",
+          "title": "M_ST_NA (5)"
+        },
+        {
+          "id": "7",
+          "title": "M_BO_NA (7)"
+        },
+        {
+          "id": "9",
+          "title": "M_ME_NA (9)"
+        },
+        {
+          "id": "11",
+          "title": "M_ME_NB (11)"
+        },
+        {
+          "id": "13",
+          "title": "M_ME_NC (13)"
+        },
+        {
+          "id": "15",
+          "title": "M_IT_NA (15)"
+        },
+        {
+          "id": "30",
+          "title": "M_SP_TB (30)"
+        },
+        {
+          "id": "31",
+          "title": "M_DP_TB(31)"
+        },
+        {
+          "id": "32",
+          "title": "M_ST_TB (32)"
+        },
+        {
+          "id": "33",
+          "title": "M_BO_TB (33)"
+        },
+        {
+          "id": "34",
+          "title": "M_ME_TD (34)"
+        },
+        {
+          "id": "35",
+          "title": "M_ME_TE (35)"
+        },
+        {
+          "id": "36",
+          "title": "M_ME_TF (36)"
+        },
+        {
+          "id": "37",
+          "title": "M_IT_TB (37)"
+        }
+      ]
+    },
+    { "prop": "calc", "title": "$Devhard_Calc", "type": "input", "hide": "!data.p3.r" },
+    { "prop": "devpropname", "title": "$Devpropname", "type": "input" },
+    {
+      "prop": "ioObjCtype",
+      "title": "Control Object",
       "type": "droplist",
       "hide": "!data.p3.w",
       "data": [
@@ -47,12 +114,70 @@
         {
           "id": "50",
           "title": "C_SE_NC (50)"
+        },
+        {
+          "id": "51",
+          "title": "C_BO_NA (51)"
+        },
+        {
+          "id": "58",
+          "title": "C_SC_TA (58)"
+        },
+        {
+          "id": "59",
+          "title": "C_DC_TA (59)"
+        },
+        {
+          "id": "60",
+          "title": "C_RC_TA (60)"
+        },
+        {
+          "id": "61",
+          "title": "C_SE_TA (61)"
+        },
+        {
+          "id": "62",
+          "title": "C_SE_TB (62)"
+        },
+        {
+          "id": "63",
+          "title": "C_SE_TC (63)"
+        },
+        {
+          "id": "64",
+          "title": "C_BO_TA (64)"
         }
       ]
     },
 
-    { "prop": "waddress", "title": "Aдрес для записи", "type": "input", "hide": "!data.p3.w" }
+    { "prop": "selCmd", "title": "Selected Commnad", "type": "cb", "hide": "1==1" },
+    {
+      "prop": "ql",
+      "title": "Qualifier of command",
+      "type": "droplist",
+      "hide": "!data.p3.w",
+      "data": [
+        {
+          "id": "0",
+          "title": "No additional definition"
+        },
+        {
+          "id": "1",
+          "title": "Short pulse"
+        },
+        {
+          "id": "2",
+          "title": "Long pulse"
+        },
+        {
+          "id": "3",
+          "title": "Persistent output"
+        }
+      ]
+    },
+    { "prop": "calc_out", "title": "$Devhard_Calc_Out", "type": "input",  "hide": "!data.p3.w"}
   ],
+
 
   "p9": [
     { "prop": "realtime_chan_str", "title": "$realtime_chan_str", "type": "text" },

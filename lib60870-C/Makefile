@@ -88,7 +88,7 @@ LIB_SOURCES = $(call get_sources,$(LIB_SOURCE_DIRS))
 
 LIB_OBJS = $(call src_to,.o,$(LIB_SOURCES))
 TEST_OBJS = $(call src_to,.o,$(LIB_TEST_SOURCES))
-CFLAGS = -arch x86_64
+CFLAGS = -arch arm64
 CFLAGS += -std=gnu99
 #CFLAGS += -Wno-error=format 
 CFLAGS += -Wstrict-prototypes -Wall -Wextra

@@ -168,18 +168,19 @@ LIB_NAME = $(LIB_OBJS_DIR)/lib60870.a
 TEST_NAME = $(LIB_OBJS_DIR)/tests.exe
 
 ifeq ($(TARGET), BSD)
-CFLAGS += -arch i386
-LDFLAGS += -arch i386
+CFLAGS += -arch arm64
+#LDFLAGS += -arch i386
+LDFLAGS += -arch arm64
 endif
 
 ifeq ($(TARGET), WIN32)
 DYN_LIB_NAME = $(LIB_OBJS_DIR)/60870.dll
 else 
 
-ifeq ($(TARGET), BSD)
-DYN_LIB_NAME = $(LIB_OBJS_DIR)/lib60870.dylib
-else
+#ifeq ($(TARGET), BSD)
+#DYN_LIB_NAME = $(LIB_OBJS_DIR)/lib60870.dylib
+#else
 DYN_LIB_NAME = $(LIB_OBJS_DIR)/lib60870.so
-endif
+#endif
 
 endif
