@@ -6,7 +6,7 @@ PROJECT_SOURCES = simple_client.c
 include $(LIB60870_HOME)/make/target_system.mk
 include $(LIB60870_HOME)/make/stack_includes.mk
 
-CFLAGS = -arch x86_64
+#CFLAGS = -arch x86_64
 
 all:	$(PROJECT_BINARY_NAME)
 

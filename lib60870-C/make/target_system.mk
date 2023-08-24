@@ -2,9 +2,10 @@ UNAME := $(shell uname)
 
 MIPSEL_TOOLCHAIN_PREFIX=mipsel-openwrt-linux-
 #ARM_TOOLCHAIN_PREFIX=arm-linux-gnueabihf-
-#ARM_TOOLCHAIN_PREFIX=arm-linux-gnueabi-
+ARM_TOOLCHAIN_PREFIX=arm-linux-gnueabi-
+ARM64_TOOLCHAIN_PREFIX=aarch64-linux-gnu-
 #ARM_TOOLCHAIN_PREFIX=arm-poky-linux-gnueabi-
-ARM_TOOLCHAIN_PREFIX=arm-linux-gnueabihf-
+#ARM_TOOLCHAIN_PREFIX=arm-linux-gnueabihf-
 UCLINUX_ARM_TOOLCHAIN_PREFIX=arm-uclinux-elf-
 UCLINUX_XPORT_TOOLCHAIN_PREFIX=m68k-uclinux-
 #MINGW_TOOLCHAIN_PREFIX=i586-mingw32msvc-
@@ -61,6 +62,11 @@ CFLAGS += -mno-unaligned-access
 # CFLAGS += -mcpu=arm926ej-s
 endif
 
+ifeq ($(TARGET), LINUX-ARM64)
+TOOLCHAIN_PREFIX=$(ARM64_TOOLCHAIN_PREFIX)
+# CFLAGS += -mcpu=arm926ej-s
+endif
+
 ifeq ($(TARGET), UCLINUX-WAGO)
 TOOLCHAIN_PREFIX=$(UCLINUX_ARM_TOOLCHAIN_PREFIX)
 CFLAGS += -msoft-float
@@ -111,6 +117,7 @@ LDLIBS+=-liphlpapi -lwpcap
 else
 $(warning winpcap not found - will build without GOOSE support!)
 CFLAGS += -DEXCLUDE_ETHERNET_WINDOWS
+
 EXCLUDE_ETHERNET_WINDOWS = 1
 endif
 
@@ -130,6 +137,8 @@ ifeq ($(TARGET), LINUX-MIPSEL)
 LIB_OBJS_DIR = $(LIB60870_HOME)/build-mipsel
 else ifeq ($(TARGET), LINUX-ARM)
 LIB_OBJS_DIR = $(LIB60870_HOME)/build-arm
+else ifeq ($(TARGET), LINUX-ARM64)
+LIB_OBJS_DIR = $(LIB60870_HOME)/build-arm64
 else ifeq ($(TARGET), UCLINUX-WAGO)
 LIB_OBJS_DIR = $(LIB60870_HOME)/build-wago
 CFLAGS += -DTARGET_SYSTEM_UCLINUX_WAGO
@@ -163,24 +172,23 @@ ifeq ($(TARGET), WIN32)
 PROJECT_BINARY_NAME := $(PROJECT_BINARY_NAME).exe
 endif
 
-LIB_NAME = $(LIB_OBJS_DIR)/lib60870.a
+LIB_NAME = $(LIB_OBJS_DIR)/liblib60870.a
 
 TEST_NAME = $(LIB_OBJS_DIR)/tests.exe
 
 ifeq ($(TARGET), BSD)
-CFLAGS += -arch arm64
-#LDFLAGS += -arch i386
-LDFLAGS += -arch arm64
+CFLAGS += -arch i386
+LDFLAGS += -arch i386
 endif
 
 ifeq ($(TARGET), WIN32)
-DYN_LIB_NAME = $(LIB_OBJS_DIR)/60870.dll
+DYN_LIB_NAME = $(LIB_OBJS_DIR)/lib60870.dll
 else 
 
-#ifeq ($(TARGET), BSD)
-#DYN_LIB_NAME = $(LIB_OBJS_DIR)/lib60870.dylib
-#else
-DYN_LIB_NAME = $(LIB_OBJS_DIR)/lib60870.so
-#endif
+ifeq ($(TARGET), BSD)
+DYN_LIB_NAME = $(LIB_OBJS_DIR)/liblib60870.dylib
+else
+DYN_LIB_NAME = $(LIB_OBJS_DIR)/liblib60870.so
+endif
 
 endif

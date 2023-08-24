@@ -370,7 +370,7 @@ void processStdinCommand(CS104_Connection con)
   int val = 0;
   int selCmd = 0;
   int ql = 0;
-  uint64_t ts;
+  long long ts;
   float valF = 0;
   int adr = 0;
 
