@@ -8,6 +8,7 @@
 #include <unistd.h>
 #ifdef __WIN32__
 #include <winsock2.h>
+#include <windows.h>
 #endif
 
 #define BUF_SIZE 2048
@@ -616,8 +617,8 @@ int main(int argc, char **argv)
         if (FD_ISSET(STDIN_FILENO, &fds))
           processStdinCommand(con);
       }
-      else
-        perror("select()");
+      //else
+        //perror("select()");
     }
   }
   else
