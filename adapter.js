@@ -14,8 +14,8 @@ const util = require('util');
 module.exports = {
   // Отдает аргументы для командной строки
   getArgs() {
-    return [this.doc.host, this.doc.port, this.doc.originatorAddress, 
-            this.doc.k, this.doc.w, this.doc.t0, this.doc.t1, this.doc.t2, this.doc.t3];
+    return [this.doc.host, this.doc.port, this.doc.originatorAddress]
+          //  this.doc.k, this.doc.w, this.doc.t0, this.doc.t1, this.doc.t2, this.doc.t3];
   },
 
   // При поступлении данных от плагина

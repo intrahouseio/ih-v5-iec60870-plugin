@@ -6,6 +6,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#ifdef __WIN32__
+#include <winsock2.h>
+#endif
 
 #define BUF_SIZE 2048
 
@@ -374,7 +377,8 @@ void processStdinCommand(CS104_Connection con)
   float valF = 0;
   int adr = 0;
 
-  bzero(buf, BUF_SIZE);
+  //bzero(buf, BUF_SIZE);
+  memset(buf, 0, sizeof *buf);
   nread = read(STDIN_FILENO, buf, BUF_SIZE);
   if (nread <= 0)
     return;
@@ -487,7 +491,7 @@ void processStdinCommand(CS104_Connection con)
   InformationObject_destroy(sc);
 }
 
-CS104_Connection createConnection(int argc, char **argv)
+CS104_Connection createConnection(int argc, char *argv[])
 {
   const char *ip = "localhost";
   uint16_t port = IEC_60870_5_104_DEFAULT_PORT;
@@ -510,17 +514,23 @@ CS104_Connection createConnection(int argc, char **argv)
   if (argc > 3)
     originatorAddress = atoi(argv[3]);
 
-  if (argc > 4) k = atoi(argv[4]);
+  if (argc > 4) 
+    k = atoi(argv[4]);
 
-  if (argc > 5) w = atoi(argv[5]);
+  if (argc > 5) 
+    w = atoi(argv[5]);
 
-  if (argc > 6) t0 = atoi(argv[6]);
+  if (argc > 6) 
+    t0 = atoi(argv[6]);
 
-  if (argc > 7) t1 = atoi(argv[7]);
+  if (argc > 7) 
+    t1 = atoi(argv[7]);
 
-  if (argc > 8) t2 = atoi(argv[8]);
+  if (argc > 8) 
+    t2 = atoi(argv[8]);
 
-  if (argc > 9) t3 = atoi(argv[9]);
+  if (argc > 9) 
+    t3 = atoi(argv[9]);
 
   printf("Connecting to: %s:%i\n", ip, port);
   CS104_Connection con = CS104_Connection_create(ip, port);
@@ -538,7 +548,7 @@ CS104_Connection createConnection(int argc, char **argv)
   //    /* .maxSizeOfASDU = */ 249
   // };
 
-    CS104_APCIParameters apciParams = CS104_Connection_getAPCIParameters(con);
+  CS104_APCIParameters apciParams = CS104_Connection_getAPCIParameters(con);
     apciParams->k = k;
     apciParams->w = w;
     apciParams->t0 = t0;
