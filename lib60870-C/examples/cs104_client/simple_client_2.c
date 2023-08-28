@@ -45,6 +45,7 @@ static void connectionHandler(void *parameter, CS104_Connection connection,
     break;
   case CS104_CONNECTION_CLOSED:
     printf("Connection closed\n");
+    running = false;
     break;
   case CS104_CONNECTION_STARTDT_CON_RECEIVED:
     printf("Received STARTDT_CON\n");
