@@ -1,0 +1,4 @@
+.gitattributes export-ignore
+build_all.sh export-ignore
+build.sh export-ignore
+lib60870-C export-ignore

@@ -1,17 +1,17 @@
 {
-  "description": "Client 60870-104",
-  "//module": "lib60870-C/examples/cs104_client/client104_linux_amd64",
+  "description": "Client 60870-5-104",
+  "//module": "bin/client104_linux_amd64",
   "module": { 
     "linux": {
-      "amd64": "lib60870-C/examples/cs104_client/client104_linux_amd64",
-      "arm": "lib60870-C/examples/cs104_client/client104_linux_arm",
-      "arm64" : "lib60870-C/examples/cs104_client/client104_linux_arm64"
+      "amd64": "bin/client104_linux_amd64",
+      "arm": "bin/client104_linux_arm",
+      "arm64" : "bin/client104_linux_arm64"
     },
     "darwin": {
-      "arm64": "lib60870-C/examples/cs104_client/client104_darwin_arm64"
+      "arm64": "bin/client104_darwin_arm64"
     },
     "windows": {
-      "amd64": "lib60870-C/examples/cs104_client/client104_windows_amd64"
+      "amd64": "bin/client104_windows_amd64"
     }
   },
   
