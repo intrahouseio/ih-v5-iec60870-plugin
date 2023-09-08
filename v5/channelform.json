@@ -7,6 +7,7 @@
   "spacing": 4,
 
   "p3": [
+    { "prop": "chan", "title": "Channel", "type": "input" },
     { "prop": "objAdr", "title": "Object Address", "type": "number" },
     { "prop": "title", "title": "$Name", "type": "input" },
     { "prop": "r", "title": "Чтение", "type": "cb", "hide": "1==1" },

@@ -11,7 +11,7 @@
       "amd64": "bin/client104_darwin_arm64"
     },
     "windows": {
-      "amd64": "bin/client104_windows_amd64"
+      "amd64": "bin/client104_windows_amd64.exe"
     }
   },
   

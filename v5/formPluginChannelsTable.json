@@ -1,0 +1,36 @@
+{
+  "grid": [
+    { "id": "p1", "xs": 12, "class": "main", "table":"unitchannelsTable", "height":"fill" }
+  ],
+  "spacing": 10,
+
+  "p1": [
+    {
+      "title": "Channels",
+      "type": "table",
+      "prop": "unitchannelsTable",
+      "popupenable":false,
+      "columns": [
+     
+        { "prop": "chan", "title": "$chan",  "type": "link", "command":"forward",  "width": 150, "filter": true },
+        { "prop": "r", "title": "$Read",  "type": "cb", "width": 100, "filter": true },
+        { "prop": "objAdr","title": "$objAdr","type": "input", "hide":"!data.r", "width": 150, "filter": true},
+        { "prop": "title", "title": "$title",  "type": "text", "hide":"!data.r", "width": 150, "filter": true },
+     
+        { "prop": "ioObjMtype", "title": "$ioObjMtype",  "type": "text", "width": 50,  "filter": true  },
+        
+        { "prop": "w", "title": "$Write",  "type": "cb", "width": 100, "filter": true },
+        { "prop": "ioObjCtype", "title": "$ioObjCtype",  "type": "text",  "width": 50, "filter": true },
+        { "prop": "selCmd","title": "$selCmd","type": "cb", "width": 150, "filter": true},
+        { "prop": "ql", "title": "$ql",  "type": "text",  "width": 150, "filter": true },
+        { "prop": "did", "title": "$Device",  "type": "link", "command":"forward", "width": 200, "filter": true  },
+        { "prop": "prop", "title": "$DeviceProperty", "type": "text",  "width": 150, "filter": true },
+        { "prop": "realtime_chan_val", "title": "$realtime_chan_val", "type": "text",  "width": 150, "filter": true },
+        { "prop": "realtime_chan_ts", "title": "$realtime_chan_ts", "type": "text",  "width": 150, "filter": true },
+        { "prop": "realtime_dev_val", "title": "$realtime_dev_val", "type": "text",  "width": 150, "filter": true },
+        { "prop": "realtime_dev_ts", "title": "$realtime_dev_ts", "type": "text",  "width": 150, "filter": true },
+        { "prop": "realtime_dev_err", "title": "$realtime_dev_err", "type": "text",  "width": 150, "filter": true }
+      ]
+    }
+  ]
+}

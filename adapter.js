@@ -20,17 +20,15 @@ module.exports = {
 
   // При поступлении данных от плагина
   readStdin(stdin, readMap, holder) {
-    if (this.readMap == undefined) {
-      this.readMap = {};
+    if (this.readMap == undefined) this.readMap = {};
+    if (Object.keys(this.readMap).length  != readMap.size) {
       readMap.forEach((value, key) => {
-        if (value.r) {
-          this.readMap[value.ioObjMtype + '_' + value.objAdr] = key
-        }        
+          this.readMap[value.ioObjMtype + '_' + value.objAdr] = key              
       })
     }
     let str = stdin.toString();
     if (!str) return;
-    //holder.emit('debug', 'plugin_' + this.id, 'readMap = '+util.inspect(this.readMap));
+    //holder.emit('debug', 'plugin_' + this.id, 'readMap = '+util.inspect(Object.keys(this.readMap)));
     holder.emit('debug', 'plugin_' + this.id, str); // выдает в отладчик все строки
 
     // Нужно парсить входящие стороки и формировать значения каналов
