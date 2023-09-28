@@ -1,0 +1,18 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     '../../../bin/client104_darwin_arm64'
+relocations:
+  - { offsetInCU: 0x26, offset: 0x26, size: 0x8, addend: 0x0, symName: _sigint_handler, symObjAddr: 0x0, symBinAddr: 0x100002C18, symSize: 0x18 }
+  - { offsetInCU: 0x4D, offset: 0x4D, size: 0x8, addend: 0x0, symName: _running, symObjAddr: 0x244C, symBinAddr: 0x100024000, symSize: 0x0 }
+  - { offsetInCU: 0x223, offset: 0x223, size: 0x8, addend: 0x0, symName: _sigint_handler, symObjAddr: 0x0, symBinAddr: 0x100002C18, symSize: 0x18 }
+  - { offsetInCU: 0x247, offset: 0x247, size: 0x8, addend: 0x0, symName: _sendFloatData, symObjAddr: 0x18, symBinAddr: 0x100002C30, symSize: 0x80 }
+  - { offsetInCU: 0x2A3, offset: 0x2A3, size: 0x8, addend: 0x0, symName: _sendIntData, symObjAddr: 0x98, symBinAddr: 0x100002CB0, symSize: 0x80 }
+  - { offsetInCU: 0x2FF, offset: 0x2FF, size: 0x8, addend: 0x0, symName: _sendInt32Data, symObjAddr: 0x118, symBinAddr: 0x100002D30, symSize: 0x80 }
+  - { offsetInCU: 0x35B, offset: 0x35B, size: 0x8, addend: 0x0, symName: _sendDwordData, symObjAddr: 0x198, symBinAddr: 0x100002DB0, symSize: 0x80 }
+  - { offsetInCU: 0x3B7, offset: 0x3B7, size: 0x8, addend: 0x0, symName: _sendBoolData, symObjAddr: 0x218, symBinAddr: 0x100002E30, symSize: 0xA4 }
+  - { offsetInCU: 0x421, offset: 0x421, size: 0x8, addend: 0x0, symName: _processStdinCommand, symObjAddr: 0x2BC, symBinAddr: 0x100002ED4, symSize: 0xEBC }
+  - { offsetInCU: 0x508, offset: 0x508, size: 0x8, addend: 0x0, symName: _createConnection, symObjAddr: 0x11C8, symBinAddr: 0x100003DE0, symSize: 0x2D4 }
+  - { offsetInCU: 0x614, offset: 0x614, size: 0x8, addend: 0x0, symName: _connectionHandler, symObjAddr: 0x149C, symBinAddr: 0x1000040B4, symSize: 0xA0 }
+  - { offsetInCU: 0x654, offset: 0x654, size: 0x8, addend: 0x0, symName: _asduReceivedHandler, symObjAddr: 0x154C, symBinAddr: 0x100004164, symSize: 0xB30 }
+  - { offsetInCU: 0x950, offset: 0x950, size: 0x8, addend: 0x0, symName: _main, symObjAddr: 0x2110, symBinAddr: 0x100004D28, symSize: 0x33C }
+...

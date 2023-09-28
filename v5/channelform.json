@@ -151,7 +151,7 @@
       ]
     },
 
-    { "prop": "selCmd", "title": "Selected Commnad", "type": "cb", "hide": "1==1" },
+    { "prop": "selCmd", "title": "Selected Command", "type": "cb", "hide": "!data.p3.w" },
     {
       "prop": "ql",
       "title": "Qualifier of command",

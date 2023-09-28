@@ -405,34 +405,76 @@ void processStdinCommand(CS104_Connection con)
   case 45: /* C_SC_NA */
     sscanf(&buf[4], "%d %d %d %d %d", &typeID, &adr, &val, &selCmd, &ql);
     if (val == 1) bval = true;
-    if (selCmd == 1) bselCmd = true;
+    if (selCmd == 1) {
+      bselCmd = true;
+      sc = (InformationObject)SingleCommand_create(NULL, adr, bval, bselCmd, ql);
+      CS104_Connection_sendProcessCommandEx(con, CS101_COT_ACTIVATION, 1, sc);
+      bselCmd = false;
+      Thread_sleep(100);
+    }
     sc = (InformationObject)SingleCommand_create(NULL, adr, bval, bselCmd, ql);
+    
     break;
   case 46: /* C_DC_NA */
     sscanf(&buf[4], "%d %d %d %d %d", &typeID, &adr, &val, &selCmd, &ql);
-    if (selCmd == 1) bselCmd = true;
+    if (selCmd == 1) {
+      bselCmd = true;
+      sc = (InformationObject)DoubleCommand_create(NULL, adr, val, bselCmd, ql);
+      CS104_Connection_sendProcessCommandEx(con, CS101_COT_ACTIVATION, 1, sc);
+      bselCmd = false;
+      Thread_sleep(100);
+    }
+    
     sc = (InformationObject)DoubleCommand_create(NULL, adr, val, bselCmd, ql);
     break;
   case 47: /* C_RC_NA */
     sscanf(&buf[4], "%d %d %d %d %d", &typeID, &adr, &val, &selCmd, &ql);
-    if (selCmd == 1) bselCmd = true;
+    if (selCmd == 1) {
+      bselCmd = true;
+      sc = (InformationObject)StepCommand_create(NULL, adr, val, bselCmd, ql);
+      CS104_Connection_sendProcessCommandEx(con, CS101_COT_ACTIVATION, 1, sc);
+      bselCmd = false;
+      Thread_sleep(100);
+    }
+    
     sc = (InformationObject)StepCommand_create(NULL, adr, val, bselCmd, ql);
     break;
   case 48: /* C_SE_NA */
     sscanf(&buf[4], "%d %d %f %d %d", &typeID, &adr, &valF, &selCmd, &ql);
-    if (selCmd == 1) bselCmd = true;
+    if (selCmd == 1) {
+      bselCmd = true;
+      sc = (InformationObject)SetpointCommandNormalized_create(NULL, adr, valF, bselCmd, ql);
+      CS104_Connection_sendProcessCommandEx(con, CS101_COT_ACTIVATION, 1, sc);
+      bselCmd = false;
+      Thread_sleep(100);
+    }
+    
     sc = (InformationObject)SetpointCommandNormalized_create(NULL, adr, valF, bselCmd, ql);
     break;
 
   case 49: /* C_SE_NB */
     sscanf(&buf[4], "%d %d %d %d %d", &typeID, &adr, &val, &selCmd, &ql);
-    if (selCmd == 1) bselCmd = true;
+    if (selCmd == 1) {
+      bselCmd = true;
+      sc = (InformationObject)SetpointCommandScaled_create(NULL, adr, val, bselCmd, ql);
+      CS104_Connection_sendProcessCommandEx(con, CS101_COT_ACTIVATION, 1, sc);
+      bselCmd = false;
+      Thread_sleep(100);
+    }
+    
     sc = (InformationObject)SetpointCommandScaled_create(NULL, adr, val, bselCmd, ql);
     break;
 
   case 50: /* C_SE_NC */
     sscanf(&buf[4], "%d %d %f %d %d", &typeID, &adr, &valF, &selCmd, &ql);
-    if (selCmd == 1) bselCmd = true;
+    if (selCmd == 1) {
+      bselCmd = true;
+      sc = (InformationObject)SetpointCommandShort_create(NULL, adr, valF, bselCmd, ql);
+      CS104_Connection_sendProcessCommandEx(con, CS101_COT_ACTIVATION, 1, sc);
+      bselCmd = false;
+      Thread_sleep(100);
+    }
+    
     sc = (InformationObject)SetpointCommandShort_create(NULL, adr, valF, bselCmd, ql);
     break; 
 
@@ -444,38 +486,80 @@ void processStdinCommand(CS104_Connection con)
   case 58: /* C_SC_TA */
     sscanf(&buf[4], "%d %d %d %d %d %llu", &typeID, &adr, &val, &selCmd, &ql, &ts);
     if (val == 1) bval = true;
-    if (selCmd == 1) bselCmd = true;
+    if (selCmd == 1) {
+      bselCmd = true;
+      sc = (InformationObject)SingleCommandWithCP56Time2a_create(NULL, adr, bval, bselCmd, ql, CP56Time2a_createFromMsTimestamp(NULL, ts));
+      CS104_Connection_sendProcessCommandEx(con, CS101_COT_ACTIVATION, 1, sc);
+      bselCmd = false;
+      Thread_sleep(100);
+    }
+    
     sc = (InformationObject)SingleCommandWithCP56Time2a_create(NULL, adr, bval, bselCmd, ql, CP56Time2a_createFromMsTimestamp(NULL, ts));
     break;
 
   case 59: /* C_DC_TA */
     sscanf(&buf[4], "%d %d %d %d %d %llu", &typeID, &adr, &val, &selCmd, &ql, &ts);
     if (val == 1) bval = true;
-    if (selCmd == 1) bselCmd = true;
+    if (selCmd == 1) {
+      bselCmd = true;
+      sc = (InformationObject)DoubleCommandWithCP56Time2a_create(NULL, adr, bval, bselCmd, ql, CP56Time2a_createFromMsTimestamp(NULL, ts));
+      CS104_Connection_sendProcessCommandEx(con, CS101_COT_ACTIVATION, 1, sc);
+      bselCmd = false;
+      Thread_sleep(100);
+    }
+    
     sc = (InformationObject)DoubleCommandWithCP56Time2a_create(NULL, adr, bval, bselCmd, ql, CP56Time2a_createFromMsTimestamp(NULL, ts));
     break;
 
   case 60: /* C_RC_TA */
     sscanf(&buf[4], "%d %d %d %d %d %llu", &typeID, &adr, &val, &selCmd, &ql, &ts);
-    if (selCmd == 1) bselCmd = true;
+    if (selCmd == 1) {
+      bselCmd = true;
+      sc = (InformationObject)StepCommandWithCP56Time2a_create(NULL, adr, val, bselCmd, ql, CP56Time2a_createFromMsTimestamp(NULL, ts));
+      CS104_Connection_sendProcessCommandEx(con, CS101_COT_ACTIVATION, 1, sc);
+      bselCmd = false;
+      Thread_sleep(100);
+    }
+    
     sc = (InformationObject)StepCommandWithCP56Time2a_create(NULL, adr, val, bselCmd, ql, CP56Time2a_createFromMsTimestamp(NULL, ts));
     break;
 
   case 61: /* C_SE_TA */
     sscanf(&buf[4], "%d %d %f %d %d %llu", &typeID, &adr, &valF, &selCmd, &ql, &ts);
-    if (selCmd == 1) bselCmd = true;
+    if (selCmd == 1) {
+      bselCmd = true;
+      sc = (InformationObject)SetpointCommandNormalizedWithCP56Time2a_create(NULL, adr, valF, bselCmd, ql, CP56Time2a_createFromMsTimestamp(NULL, ts));
+      CS104_Connection_sendProcessCommandEx(con, CS101_COT_ACTIVATION, 1, sc);
+      bselCmd = false;
+      Thread_sleep(100);
+    }
+    
     sc = (InformationObject)SetpointCommandNormalizedWithCP56Time2a_create(NULL, adr, valF, bselCmd, ql, CP56Time2a_createFromMsTimestamp(NULL, ts));
     break;
 
   case 62: /* C_SE_TB */
     sscanf(&buf[4], "%d %d %d %d %d %llu", &typeID, &adr, &val, &selCmd, &ql, &ts);
-    if (selCmd == 1) bselCmd = true;
+    if (selCmd == 1) {
+      bselCmd = true;
+      sc = (InformationObject)SetpointCommandScaledWithCP56Time2a_create(NULL, adr, val, bselCmd, ql, CP56Time2a_createFromMsTimestamp(NULL, ts));
+      CS104_Connection_sendProcessCommandEx(con, CS101_COT_ACTIVATION, 1, sc);
+      bselCmd = false;
+      Thread_sleep(100);
+    }
+    
     sc = (InformationObject)SetpointCommandScaledWithCP56Time2a_create(NULL, adr, val, bselCmd, ql, CP56Time2a_createFromMsTimestamp(NULL, ts));
     break;
 
   case 63: /* C_SE_TC */
     sscanf(&buf[4], "%d %d %f %d %d %llu", &typeID, &adr, &valF, &selCmd, &ql, &ts);
-    if (selCmd == 1) bselCmd = true;
+    if (selCmd == 1) {
+      bselCmd = true;
+      sc = (InformationObject)SetpointCommandShortWithCP56Time2a_create(NULL, adr, valF, bselCmd, ql, CP56Time2a_createFromMsTimestamp(NULL, ts));
+      CS104_Connection_sendProcessCommandEx(con, CS101_COT_ACTIVATION, 1, sc);
+      bselCmd = false;
+      Thread_sleep(100);
+    }
+    
     sc = (InformationObject)SetpointCommandShortWithCP56Time2a_create(NULL, adr, valF, bselCmd, ql, CP56Time2a_createFromMsTimestamp(NULL, ts));
     break; 
 
@@ -485,10 +569,10 @@ void processStdinCommand(CS104_Connection con)
     break;
 
   default:
-    printf("Unknown CMD type: %s (%i) Address: %i\n", TypeID_toString(typeID), typeID, adr);
+    //printf("Unknown CMD type: %s (%i) Address: %i\n", TypeID_toString(typeID), typeID, adr);
     return;
   }
-  printf("Send control command %s(%d) adr=%d value=%d\n", TypeID_toString(typeID), typeID, adr, val);
+  //printf("Send control command %s(%d) adr=%d value=%d selCmd=%d\n", TypeID_toString(typeID), typeID, adr, val, bselCmd);
   CS104_Connection_sendProcessCommandEx(con, CS101_COT_ACTIVATION, 1, sc);
   InformationObject_destroy(sc);
 }

@@ -23,7 +23,8 @@ module.exports = {
     if (this.readMap == undefined) this.readMap = {};
     if (Object.keys(this.readMap).length  != readMap.size) {
       readMap.forEach((value, key) => {
-          this.readMap[value.ioObjMtype + '_' + value.objAdr] = key              
+          //this.readMap[value.ioObjMtype + '_' + value.objAdr] = key    
+          this.readMap[value.objAdr] = key   
       })
     }
     let str = stdin.toString();
@@ -74,7 +75,8 @@ function processLine(str, readMap) {
     //console.log('processLine try parse' + str);   
     const obj = JSON.parse(str);  
     const title = getTitle(obj);
-    return { id: readMap[obj.type + '_' + obj.address], title, ...obj };
+    //return { id: readMap[obj.type + '_' + obj.address], title, ...obj };
+    return { id: readMap[obj.address], title, ...obj };
     // return { ASDU: obj.ASDU, id: obj.address, value: obj.value, chstatus: obj.quality, ts: obj.ts };
   } catch (e) {
     console.log('ERROR: ' + util.inspect(e));
