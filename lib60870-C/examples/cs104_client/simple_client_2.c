@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <string.h>
 #ifdef __WIN32__
 #include <winsock2.h>
 #include <windows.h>
@@ -14,6 +15,8 @@
 #define BUF_SIZE 2048
 
 static bool running = true;
+char buffer[10000] = "";
+char str[200]; 
 
 void sigint_handler(int signalId) { running = false; }
 
@@ -58,25 +61,25 @@ static void connectionHandler(void *parameter, CS104_Connection connection,
 
 void sendFloatData(int typeID, int address, float value, int q, long long ts)
 {
-  printf("{\"ASDU\":\"%s\", \"type\":\"%i\", \"address\":%i, \"value\":%f, \"chstatus\":%i, \"ts\":%llu}\n",
+  sprintf(str, "{\"ASDU\":\"%s\", \"type\":\"%i\", \"address\":%i, \"value\":%f, \"chstatus\":%i, \"ts\":%llu}\n",
          TypeID_toString(typeID), typeID, address, value, q, ts);
 }
 
 void sendIntData(int typeID, int address, int value, int q, long long ts)
 {
-  printf("{\"ASDU\":\"%s\", \"type\":\"%i\", \"address\":%i, \"value\":%d, \"chstatus\":%i, \"ts\":%llu}\n",
+  sprintf(str, "{\"ASDU\":\"%s\", \"type\":\"%i\", \"address\":%i, \"value\":%d, \"chstatus\":%i, \"ts\":%llu}\n",
          TypeID_toString(typeID), typeID, address, value, q, ts);
 }
 
 void sendInt32Data(int typeID, int address, int32_t value, int q, long long ts)
 {
-  printf("{\"ASDU\":\"%s\", \"type\":\"%i\", \"address\":%i, \"value\":%d, \"chstatus\":%i, \"ts\":%llu}\n",
+  sprintf(str, "{\"ASDU\":\"%s\", \"type\":\"%i\", \"address\":%i, \"value\":%d, \"chstatus\":%i, \"ts\":%llu}\n",
          TypeID_toString(typeID), typeID, address, value, q, ts);
 }
 
 void sendDwordData(int typeID, int address, uint32_t value, int q, long long ts)
 {
-  printf("{\"ASDU\":\"%s\", \"type\":\"%i\", \"address\":%i, \"value\":%d, \"chstatus\":%i, \"ts\":%llu}\n",
+  sprintf(str, "{\"ASDU\":\"%s\", \"type\":\"%i\", \"address\":%i, \"value\":%d, \"chstatus\":%i, \"ts\":%llu}\n",
          TypeID_toString(typeID), typeID, address, value, q, ts);
 }
 
@@ -85,7 +88,7 @@ void sendBoolData(int typeID, int address, bool bval, int q, long long ts)
   int value = 0;
   if (bval)
     value = 1;
-  printf("{\"ASDU\":\"%s\", \"type\":\"%i\", \"address\":%i, \"value\":%d, \"chstatus\":%i, \"ts\":%llu}\n",
+  sprintf(str, "{\"ASDU\":\"%s\", \"type\":\"%i\", \"address\":%i, \"value\":%d, \"chstatus\":%i, \"ts\":%llu}\n",
          TypeID_toString(typeID), typeID, address, value, q, ts);
 }
 
@@ -100,7 +103,7 @@ static bool asduReceivedHandler(void *parameter, int address, CS101_ASDU asdu)
   int typeID = CS101_ASDU_getTypeID(asdu);
   int numberOfElements = CS101_ASDU_getNumberOfElements(asdu);
   printf("%s, elements: %i\n", TypeID_toString(typeID), numberOfElements);
-
+  memset (str, 0, 200);
   switch (typeID)
   {
   case M_SP_NA_1: /* 1 */
@@ -113,7 +116,7 @@ static bool asduReceivedHandler(void *parameter, int address, CS101_ASDU asdu)
                    InformationObject_getObjectAddress((InformationObject)io),
                    SinglePointInformation_getValue((SinglePointInformation)io),
                    SinglePointInformation_getQuality((SinglePointInformation)io),
-                   0);
+                   Hal_getTimeInMs());
       SinglePointInformation_destroy(io);
     }
     break;
@@ -128,7 +131,7 @@ static bool asduReceivedHandler(void *parameter, int address, CS101_ASDU asdu)
                   InformationObject_getObjectAddress((InformationObject)io),
                   DoublePointInformation_getValue(io),
                   DoublePointInformation_getQuality(io),
-                  0);
+                  Hal_getTimeInMs());
       DoublePointInformation_destroy(io);
     }
     break;
@@ -143,7 +146,7 @@ static bool asduReceivedHandler(void *parameter, int address, CS101_ASDU asdu)
                   InformationObject_getObjectAddress((InformationObject)io),
                   StepPositionInformation_getValue(io),
                   StepPositionInformation_getQuality(io),
-                  0);
+                  Hal_getTimeInMs());
       StepPositionInformation_destroy(io);
     }
     break;
@@ -158,7 +161,7 @@ static bool asduReceivedHandler(void *parameter, int address, CS101_ASDU asdu)
                     InformationObject_getObjectAddress((InformationObject)io),
                     BitString32_getValue(io),
                     BitString32_getQuality(io),
-                    0);
+                    Hal_getTimeInMs());
       BitString32_destroy(io);
     }
     break;
@@ -173,7 +176,7 @@ static bool asduReceivedHandler(void *parameter, int address, CS101_ASDU asdu)
                     InformationObject_getObjectAddress((InformationObject)io),
                     MeasuredValueNormalized_getValue(io),
                     MeasuredValueNormalized_getQuality(io),
-                    0);
+                    Hal_getTimeInMs());
       MeasuredValueNormalized_destroy(io);
     }
     break;
@@ -188,7 +191,7 @@ static bool asduReceivedHandler(void *parameter, int address, CS101_ASDU asdu)
                   InformationObject_getObjectAddress((InformationObject)io),
                   MeasuredValueScaled_getValue((MeasuredValueScaled)io),
                   MeasuredValueScaled_getQuality((MeasuredValueScaled)io),
-                  0);
+                  Hal_getTimeInMs());
       MeasuredValueScaled_destroy(io);
     }
     break;
@@ -203,7 +206,7 @@ static bool asduReceivedHandler(void *parameter, int address, CS101_ASDU asdu)
                     InformationObject_getObjectAddress((InformationObject)io),
                     MeasuredValueShort_getValue(io),
                     MeasuredValueShort_getQuality(io),
-                    0);
+                    Hal_getTimeInMs());
       MeasuredValueShort_destroy(io);
     }
     break;
@@ -224,7 +227,7 @@ static bool asduReceivedHandler(void *parameter, int address, CS101_ASDU asdu)
                   InformationObject_getObjectAddress((InformationObject)io),
                   BinaryCounterReading_getValue(IntegratedTotals_getBCR(io)),
                   isInvalid, // isInvalid
-                  0);
+                  Hal_getTimeInMs());
       IntegratedTotals_destroy(io);
     }
     break;
@@ -358,8 +361,17 @@ static bool asduReceivedHandler(void *parameter, int address, CS101_ASDU asdu)
     //    printf("C_TS_TA_1  test command with timestamp\n");
     //    break;
   default:
-    printf("Received ASDU type: %s (%i)\n", TypeID_toString(typeID), typeID);
+    printf("Received unsupported ASDU type: %s (%i)\n", TypeID_toString(typeID), typeID);
   }
+  //printf("Buffer len: %lu Str len: %lu\n", strlen(buffer), strlen(str));
+  if (strlen(buffer) + strlen(str) < 10000) {
+    strcat(buffer, str);
+  } else {
+    printf("%s", buffer);
+    memset(buffer, 0, 10000);
+    strcat(buffer, str);
+  }
+  
   return true;
 }
 
@@ -564,10 +576,23 @@ void processStdinCommand(CS104_Connection con)
     break; 
 
   case 64: /* C_BO_TA */
-    sscanf(&buf[4], "%d %d %d %llu", &typeID, &adr, &val, &ts);
+    sscanf(&buf[4], "%d %d %d %d %d %llu", &typeID, &adr, &val, &selCmd, &ql, &ts);
     sc = (InformationObject)Bitstring32CommandWithCP56Time2a_create(NULL, adr, val, CP56Time2a_createFromMsTimestamp(NULL, ts));
     break;
 
+  case 100: /* C_IC_NA */
+    CS104_Connection_sendInterrogationCommand(con, CS101_COT_ACTIVATION, 1, IEC60870_QOI_STATION);
+    return;
+  case 101: /* C_CI_NA */
+    CS104_Connection_sendCounterInterrogationCommand(con, CS101_COT_ACTIVATION, 1, 1);
+    return;
+  case 102: /* C_RD_NA */
+    sscanf(&buf[4], "%d %d", &typeID, &adr);
+    CS104_Connection_sendReadCommand(con, 1, adr);
+    return;
+  case 103: /* C_CS_NA */
+    CS104_Connection_sendClockSyncCommand(con, 1, CP56Time2a_createFromMsTimestamp(NULL, Hal_getTimeInMs()));
+    return;
   default:
     //printf("Unknown CMD type: %s (%i) Address: %i\n", TypeID_toString(typeID), typeID, adr);
     return;
@@ -701,6 +726,11 @@ int main(int argc, char **argv)
       {
         if (FD_ISSET(STDIN_FILENO, &fds))
           processStdinCommand(con);
+      }
+      //printf("Buffer Len: %lu\n", strlen(buf));
+      if (strlen(buffer)>0) {
+        printf("%s", buffer);
+        memset(buffer, 0, 10000);
       }
       //else
         //perror("select()");
