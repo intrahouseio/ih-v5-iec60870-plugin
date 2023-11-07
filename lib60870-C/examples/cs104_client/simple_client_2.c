@@ -10,9 +10,12 @@
 #ifdef __WIN32__
 #include <winsock2.h>
 #include <windows.h>
+
 #endif
 
 #define BUF_SIZE 2048
+
+
 
 static bool running = true;
 char buffer[10000] = "";
@@ -102,7 +105,7 @@ static bool asduReceivedHandler(void *parameter, int address, CS101_ASDU asdu)
   int i;
   int typeID = CS101_ASDU_getTypeID(asdu);
   int numberOfElements = CS101_ASDU_getNumberOfElements(asdu);
-  printf("%s, elements: %i\n", TypeID_toString(typeID), numberOfElements);
+  //printf("%s, elements: %i\n", TypeID_toString(typeID), numberOfElements);
   memset (str, 0, 200);
   switch (typeID)
   {
@@ -382,7 +385,7 @@ static bool asduReceivedHandler(void *parameter, int address, CS101_ASDU asdu)
 void processStdinCommand(CS104_Connection con)
 {
   int nread;
-  char buf[BUF_SIZE + 1];
+  
   int typeID = 0;
   int val = 0;
   int selCmd = 0;
@@ -392,20 +395,31 @@ void processStdinCommand(CS104_Connection con)
   int adr = 0;
 
   //bzero(buf, BUF_SIZE);
-  memset(buf, 0, sizeof *buf);
-  nread = read(STDIN_FILENO, buf, BUF_SIZE);
-  if (nread <= 0)
-    return;
-
-  printf("Get command %s (%d chars)\n", buf, nread);
-  if (strncmp("CMD:", buf, 4) != 0)
-  {
-    printf("Expected CMD:type adr value, received %s (%d chars)\n", buf, nread);
-    return;
-  }
+  
   //sscanf(&buf[4], "%d %d %d", &typeID, &adr, &val);
-  sscanf(&buf[4], "%d", &typeID);
-  printf("Type=%d", typeID);
+    
+    char buf[BUF_SIZE + 1];
+    memset(buf, 0, sizeof *buf);
+
+    #ifdef __WIN32__
+      gets(buf);
+    #else
+      nread = read(STDIN_FILENO, buf, BUF_SIZE);
+      if (nread <= 0)
+      return;
+    #endif
+    
+
+    //printf("Get command %s (%d chars)\n", buf, nread);
+    if (strncmp("CMD:", buf, 4) != 0)
+    {
+    //printf("Expected CMD:type adr value, received %s (%d chars)\n", buf, nread);
+    return;
+    }
+    sscanf(&buf[4], "%d", &typeID);
+  
+  
+  //printf("Type=%d", typeID);
   //printf("Type=%d adr=%d val=%d\n", typeID, adr, val);
 
   InformationObject sc;
@@ -594,7 +608,7 @@ void processStdinCommand(CS104_Connection con)
     CS104_Connection_sendClockSyncCommand(con, 1, CP56Time2a_createFromMsTimestamp(NULL, Hal_getTimeInMs()));
     return;
   default:
-    //printf("Unknown CMD type: %s (%i) Address: %i\n", TypeID_toString(typeID), typeID, adr);
+    printf("Unknown CMD type: %s (%i) Address: %i\n", TypeID_toString(typeID), typeID, adr);
     return;
   }
   //printf("Send control command %s(%d) adr=%d value=%d selCmd=%d\n", TypeID_toString(typeID), typeID, adr, val, bselCmd);
@@ -643,7 +657,7 @@ CS104_Connection createConnection(int argc, char *argv[])
   if (argc > 9) 
     t3 = atoi(argv[9]);
 
-  printf("Connecting to: %s:%i\n", ip, port);
+  //printf("Connecting to: %s:%i\n", ip, port);
   CS104_Connection con = CS104_Connection_create(ip, port);
   CS101_AppLayerParameters alParams =
       CS104_Connection_getAppLayerParameters(con);
@@ -687,6 +701,7 @@ CS104_Connection createConnection(int argc, char *argv[])
   return con;
 }
 
+
 int main(int argc, char **argv)
 {
   fd_set fds;
@@ -703,37 +718,49 @@ int main(int argc, char **argv)
   CS104_Connection con = createConnection(argc, argv);
   if (CS104_Connection_connect(con))
   {
-    printf("Connected!\n");
+    //printf("Connected!\n");
     CS104_Connection_sendStartDT(con);
     Thread_sleep(2000);
 
     CS104_Connection_sendInterrogationCommand(con, CS101_COT_ACTIVATION, 1, IEC60870_QOI_STATION);
     Thread_sleep(5000);
-
+    
     // struct sCP56Time2a testTimestamp;
     // CP56Time2a_createFromMsTimestamp(&testTimestamp, Hal_getTimeInMs());
     // CS104_Connection_sendTestCommandWithTimestamp(con, 1, 0x4938, &testTimestamp);
-
+    #ifdef __WIN32__
+      HANDLE hStdInput = GetStdHandle(STD_INPUT_HANDLE);
+    #endif
     while (running)
     {
-      FD_ZERO(&fds); // Команды через stdin
-      FD_SET(STDIN_FILENO, &fds);
-      max_fd = STDIN_FILENO + 1;
-      tv.tv_sec = 1;
-      tv.tv_usec = 0; // в микросекундах = 1000 мсек
-      res = select(max_fd, &fds, NULL, NULL, &tv);
-      if (res >= 0)
+      #ifdef __WIN32__
+      DWORD bytesAvailable = 0;        
+        PeekNamedPipe(hStdInput,NULL,0,NULL,&bytesAvailable, NULL);
+        if (bytesAvailable > 0) {
+          processStdinCommand(con);
+        } else {
+          Thread_sleep(1000);
+        }
+        
+      #else
+        FD_ZERO(&fds); // Команды через stdin
+        FD_SET(STDIN_FILENO, &fds);
+        max_fd = STDIN_FILENO + 1;
+        tv.tv_sec = 1;
+        tv.tv_usec = 0; // в микросекундах = 1000 мсек
+        res = select(max_fd, &fds, NULL, NULL, &tv);
+        if (res >= 0)
       {
         if (FD_ISSET(STDIN_FILENO, &fds))
+        
           processStdinCommand(con);
-      }
-      //printf("Buffer Len: %lu\n", strlen(buf));
+      }  
+      #endif
       if (strlen(buffer)>0) {
         printf("%s", buffer);
         memset(buffer, 0, 10000);
       }
-      //else
-        //perror("select()");
+
     }
   }
   else

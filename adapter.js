@@ -20,31 +20,40 @@ module.exports = {
 
   // При поступлении данных от плагина
   readStdin(stdin, readMap, holder) {
-    if (this.readMap == undefined) this.readMap = {};
-    if (Object.keys(this.readMap).length  != readMap.size) {
+    if (this.readMapCur == undefined) this.readMapCur = {};
+	  if (this.readChunk == undefined)  this.readChunk = '';
+    if (Object.keys(this.readMapCur).length  != readMap.size) {
+      this.readMapCur = {};
       readMap.forEach((value, key) => {
           //this.readMap[value.ioObjMtype + '_' + value.objAdr] = key    
-          this.readMap[value.objAdr] = key   
+          this.readMapCur[value.objAdr] = key   
       })
     }
+	
     let str = stdin.toString();
-    if (!str) return;
+	if (str.substr(-1) != '\n') {
+		this.readChunk += str;
+		return {type: 'data', data : []};
+	} else {
+		this.readChunk += str;
+	}
+    if (!this.readChunk) return;
     //holder.emit('debug', 'plugin_' + this.id, 'readMap = '+util.inspect(Object.keys(this.readMap)));
-    holder.emit('debug', 'plugin_' + this.id, str); // выдает в отладчик все строки
+    holder.emit('debug', 'plugin_' + this.id, this.readChunk); // выдает в отладчик все строки
 
     // Нужно парсить входящие стороки и формировать значения каналов
     // Может быть подряд несколько строк
-    const strArr = str.split('\n');
-
+    const strArr = this.readChunk.split('\n');
+	this.readChunk = '';
     const data = [];
     strArr.forEach(line => {
-      const lineObj = processLine(line, this.readMap);      
+      const lineObj = processLine(line, this.readMapCur);      
       if (lineObj) data.push(lineObj);
     });
     if (data.length) {
       //const type = needUpsert(readMap, data) ? 'upsertChannels' : 'data';
       const type = 'data';
-      console.log('TYPE for send: '+type)
+	  //holder.emit('debug', 'plugin_' + this.id, 'data= '+util.inspect(data));
       return { type, data };
     }
   },
