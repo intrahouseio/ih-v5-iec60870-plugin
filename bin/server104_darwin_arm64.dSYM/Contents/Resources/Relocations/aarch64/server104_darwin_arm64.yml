@@ -1,0 +1,15 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     '../../../bin/server104_darwin_arm64'
+relocations:
+  - { offsetInCU: 0x26, offset: 0x26, size: 0x8, addend: 0x0, symName: _sigint_handler, symObjAddr: 0x0, symBinAddr: 0x100003D10, symSize: 0x18 }
+  - { offsetInCU: 0x4D, offset: 0x4D, size: 0x8, addend: 0x0, symName: _running, symObjAddr: 0xAB8, symBinAddr: 0x100028000, symSize: 0x0 }
+  - { offsetInCU: 0xB2, offset: 0xB2, size: 0x8, addend: 0x0, symName: _sigint_handler, symObjAddr: 0x0, symBinAddr: 0x100003D10, symSize: 0x18 }
+  - { offsetInCU: 0xD6, offset: 0xD6, size: 0x8, addend: 0x0, symName: _printCP56Time2a, symObjAddr: 0x18, symBinAddr: 0x100003D28, symSize: 0xBC }
+  - { offsetInCU: 0xFA, offset: 0xFA, size: 0x8, addend: 0x0, symName: _main, symObjAddr: 0xD4, symBinAddr: 0x100003DE4, symSize: 0x2A0 }
+  - { offsetInCU: 0x1A5, offset: 0x1A5, size: 0x8, addend: 0x0, symName: _clockSyncHandler, symObjAddr: 0x374, symBinAddr: 0x100004084, symSize: 0x74 }
+  - { offsetInCU: 0x205, offset: 0x205, size: 0x8, addend: 0x0, symName: _interrogationHandler, symObjAddr: 0x3E8, symBinAddr: 0x1000040F8, symSize: 0x420 }
+  - { offsetInCU: 0x28F, offset: 0x28F, size: 0x8, addend: 0x0, symName: _asduHandler, symObjAddr: 0x808, symBinAddr: 0x100004518, symSize: 0x180 }
+  - { offsetInCU: 0x30B, offset: 0x30B, size: 0x8, addend: 0x0, symName: _connectionRequestHandler, symObjAddr: 0x988, symBinAddr: 0x100004698, symSize: 0x40 }
+  - { offsetInCU: 0x341, offset: 0x341, size: 0x8, addend: 0x0, symName: _connectionEventHandler, symObjAddr: 0x9C8, symBinAddr: 0x1000046D8, symSize: 0xF0 }
+...

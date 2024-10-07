@@ -2,19 +2,20 @@
 triple:          'arm64-apple-darwin'
 binary-path:     '../../../bin/client104_darwin_arm64'
 relocations:
-  - { offsetInCU: 0x26, offset: 0x26, size: 0x8, addend: 0x0, symName: _sigint_handler, symObjAddr: 0x0, symBinAddr: 0x100002A08, symSize: 0x18 }
-  - { offsetInCU: 0x3F, offset: 0x3F, size: 0x8, addend: 0x0, symName: _buffer, symObjAddr: 0x6A7A, symBinAddr: 0x1000244D0, symSize: 0x0 }
+  - { offsetInCU: 0x26, offset: 0x26, size: 0x8, addend: 0x0, symName: _sigint_handler, symObjAddr: 0x0, symBinAddr: 0x1000029DC, symSize: 0x18 }
+  - { offsetInCU: 0x3F, offset: 0x3F, size: 0x8, addend: 0x0, symName: _buffer, symObjAddr: 0x6B1F, symBinAddr: 0x1000244D0, symSize: 0x0 }
   - { offsetInCU: 0x6F, offset: 0x6F, size: 0x8, addend: 0x0, symName: _str, symBinAddr: 0x100026BE0, symSize: 0x0 }
-  - { offsetInCU: 0x90, offset: 0x90, size: 0x8, addend: 0x0, symName: _running, symObjAddr: 0x26A0, symBinAddr: 0x100024000, symSize: 0x0 }
-  - { offsetInCU: 0x266, offset: 0x266, size: 0x8, addend: 0x0, symName: _sigint_handler, symObjAddr: 0x0, symBinAddr: 0x100002A08, symSize: 0x18 }
-  - { offsetInCU: 0x28A, offset: 0x28A, size: 0x8, addend: 0x0, symName: _sendFloatData, symObjAddr: 0x18, symBinAddr: 0x100002A20, symSize: 0x90 }
-  - { offsetInCU: 0x2E6, offset: 0x2E6, size: 0x8, addend: 0x0, symName: _sendIntData, symObjAddr: 0xA8, symBinAddr: 0x100002AB0, symSize: 0x90 }
-  - { offsetInCU: 0x342, offset: 0x342, size: 0x8, addend: 0x0, symName: _sendInt32Data, symObjAddr: 0x138, symBinAddr: 0x100002B40, symSize: 0x90 }
-  - { offsetInCU: 0x39E, offset: 0x39E, size: 0x8, addend: 0x0, symName: _sendDwordData, symObjAddr: 0x1C8, symBinAddr: 0x100002BD0, symSize: 0x90 }
-  - { offsetInCU: 0x3FA, offset: 0x3FA, size: 0x8, addend: 0x0, symName: _sendBoolData, symObjAddr: 0x258, symBinAddr: 0x100002C60, symSize: 0xB4 }
-  - { offsetInCU: 0x464, offset: 0x464, size: 0x8, addend: 0x0, symName: _processStdinCommand, symObjAddr: 0x30C, symBinAddr: 0x100002D14, symSize: 0xF30 }
-  - { offsetInCU: 0x54B, offset: 0x54B, size: 0x8, addend: 0x0, symName: _createConnection, symObjAddr: 0x1328, symBinAddr: 0x100003D30, symSize: 0x2B0 }
-  - { offsetInCU: 0x656, offset: 0x656, size: 0x8, addend: 0x0, symName: _connectionHandler, symObjAddr: 0x15D8, symBinAddr: 0x100003FE0, symSize: 0xA0 }
-  - { offsetInCU: 0x696, offset: 0x696, size: 0x8, addend: 0x0, symName: _asduReceivedHandler, symObjAddr: 0x1688, symBinAddr: 0x100004090, symSize: 0xC08 }
-  - { offsetInCU: 0x993, offset: 0x993, size: 0x8, addend: 0x0, symName: _main, symObjAddr: 0x2324, symBinAddr: 0x100004D2C, symSize: 0x37C }
+  - { offsetInCU: 0x90, offset: 0x90, size: 0x8, addend: 0x0, symName: _running, symObjAddr: 0x26CC, symBinAddr: 0x100024000, symSize: 0x0 }
+  - { offsetInCU: 0x266, offset: 0x266, size: 0x8, addend: 0x0, symName: _sigint_handler, symObjAddr: 0x0, symBinAddr: 0x1000029DC, symSize: 0x18 }
+  - { offsetInCU: 0x28A, offset: 0x28A, size: 0x8, addend: 0x0, symName: _bufferConcat, symObjAddr: 0x18, symBinAddr: 0x1000029F4, symSize: 0xBC }
+  - { offsetInCU: 0x29F, offset: 0x29F, size: 0x8, addend: 0x0, symName: _sendFloatData, symObjAddr: 0xD4, symBinAddr: 0x100002AB0, symSize: 0x94 }
+  - { offsetInCU: 0x2FB, offset: 0x2FB, size: 0x8, addend: 0x0, symName: _sendIntData, symObjAddr: 0x168, symBinAddr: 0x100002B44, symSize: 0x94 }
+  - { offsetInCU: 0x357, offset: 0x357, size: 0x8, addend: 0x0, symName: _sendInt32Data, symObjAddr: 0x1FC, symBinAddr: 0x100002BD8, symSize: 0x94 }
+  - { offsetInCU: 0x3B3, offset: 0x3B3, size: 0x8, addend: 0x0, symName: _sendDwordData, symObjAddr: 0x290, symBinAddr: 0x100002C6C, symSize: 0x94 }
+  - { offsetInCU: 0x40F, offset: 0x40F, size: 0x8, addend: 0x0, symName: _sendBoolData, symObjAddr: 0x324, symBinAddr: 0x100002D00, symSize: 0xB8 }
+  - { offsetInCU: 0x479, offset: 0x479, size: 0x8, addend: 0x0, symName: _processStdinCommand, symObjAddr: 0x3DC, symBinAddr: 0x100002DB8, symSize: 0xF30 }
+  - { offsetInCU: 0x560, offset: 0x560, size: 0x8, addend: 0x0, symName: _createConnection, symObjAddr: 0x13F8, symBinAddr: 0x100003DD4, symSize: 0x2B0 }
+  - { offsetInCU: 0x66B, offset: 0x66B, size: 0x8, addend: 0x0, symName: _connectionHandler, symObjAddr: 0x16A8, symBinAddr: 0x100004084, symSize: 0xA0 }
+  - { offsetInCU: 0x6AB, offset: 0x6AB, size: 0x8, addend: 0x0, symName: _asduReceivedHandler, symObjAddr: 0x1758, symBinAddr: 0x100004134, symSize: 0xB64 }
+  - { offsetInCU: 0x9A9, offset: 0x9A9, size: 0x8, addend: 0x0, symName: _main, symObjAddr: 0x2350, symBinAddr: 0x100004D2C, symSize: 0x37C }
 ...

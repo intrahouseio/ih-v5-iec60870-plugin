@@ -62,28 +62,42 @@ static void connectionHandler(void *parameter, CS104_Connection connection,
   }
 }
 
+void bufferConcat() {
+  if (strlen(buffer) + strlen(str) < 10000) {
+    strcat(buffer, str);
+  } else {
+    printf("%s", buffer);
+    memset(buffer, 0, 10000);
+    strcat(buffer, str);
+  }
+}
+
 void sendFloatData(int typeID, int address, float value, int q, long long ts)
 {
   sprintf(str, "{\"ASDU\":\"%s\", \"type\":\"%i\", \"address\":%i, \"value\":%f, \"chstatus\":%i, \"ts\":%llu}\n",
          TypeID_toString(typeID), typeID, address, value, q, ts);
+         bufferConcat();
 }
 
 void sendIntData(int typeID, int address, int value, int q, long long ts)
 {
   sprintf(str, "{\"ASDU\":\"%s\", \"type\":\"%i\", \"address\":%i, \"value\":%d, \"chstatus\":%i, \"ts\":%llu}\n",
          TypeID_toString(typeID), typeID, address, value, q, ts);
+         bufferConcat();
 }
 
 void sendInt32Data(int typeID, int address, int32_t value, int q, long long ts)
 {
   sprintf(str, "{\"ASDU\":\"%s\", \"type\":\"%i\", \"address\":%i, \"value\":%d, \"chstatus\":%i, \"ts\":%llu}\n",
          TypeID_toString(typeID), typeID, address, value, q, ts);
+         bufferConcat();
 }
 
 void sendDwordData(int typeID, int address, uint32_t value, int q, long long ts)
 {
   sprintf(str, "{\"ASDU\":\"%s\", \"type\":\"%i\", \"address\":%i, \"value\":%d, \"chstatus\":%i, \"ts\":%llu}\n",
          TypeID_toString(typeID), typeID, address, value, q, ts);
+         bufferConcat();
 }
 
 void sendBoolData(int typeID, int address, bool bval, int q, long long ts)
@@ -93,6 +107,7 @@ void sendBoolData(int typeID, int address, bool bval, int q, long long ts)
     value = 1;
   sprintf(str, "{\"ASDU\":\"%s\", \"type\":\"%i\", \"address\":%i, \"value\":%d, \"chstatus\":%i, \"ts\":%llu}\n",
          TypeID_toString(typeID), typeID, address, value, q, ts);
+         bufferConcat();
 }
 
 /*
@@ -102,6 +117,7 @@ void sendBoolData(int typeID, int address, bool bval, int q, long long ts)
  */
 static bool asduReceivedHandler(void *parameter, int address, CS101_ASDU asdu)
 {
+  
   int i;
   int typeID = CS101_ASDU_getTypeID(asdu);
   int numberOfElements = CS101_ASDU_getNumberOfElements(asdu);
@@ -367,13 +383,13 @@ static bool asduReceivedHandler(void *parameter, int address, CS101_ASDU asdu)
     printf("Received unsupported ASDU type: %s (%i)\n", TypeID_toString(typeID), typeID);
   }
   //printf("Buffer len: %lu Str len: %lu\n", strlen(buffer), strlen(str));
-  if (strlen(buffer) + strlen(str) < 10000) {
+  /*if (strlen(buffer) + strlen(str) < 10000) {
     strcat(buffer, str);
   } else {
     printf("%s", buffer);
     memset(buffer, 0, 10000);
     strcat(buffer, str);
-  }
+  }*/
   
   return true;
 }
