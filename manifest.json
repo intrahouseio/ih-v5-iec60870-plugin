@@ -41,6 +41,8 @@
   "default_channel_read": {
     "r":1,
     "title": "Control Object 1",
+    "bit": 0,
+    "offset": 0,
     "ioObjMtype":  "1"
   },
 

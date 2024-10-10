@@ -84,6 +84,14 @@
         }
       ]
     },
+    { "prop": "bit", "title": "$bit", "type": "cb" },
+    {
+      "prop": "offset",
+      "title": "$offset",
+      "type": "number",
+      "hide": "!data.p3.r || !data.p3.bit",
+      "default": 0
+    },
     { "prop": "calc", "title": "$Devhard_Calc", "type": "input", "hide": "!data.p3.r" },
     { "prop": "devpropname", "title": "$Devpropname", "type": "input" },
     {
