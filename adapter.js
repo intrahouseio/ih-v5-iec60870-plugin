@@ -26,7 +26,7 @@ module.exports = {
       this.readMapCur = {};
       readMap.forEach((value, key) => {
         //this.readMap[value.ioObjMtype + '_' + value.objAdr] = key
-        if (this.readMapCur[value.objAdr] == undefined) this.readMapCur[value.objAdr] = []; 
+        if (this.readMapCur[value.objAdr] == undefined) this.readMapCur[value.objAdr] = [];
         this.readMapCur[value.objAdr].push(value);
       })
     }
@@ -48,8 +48,10 @@ module.exports = {
     this.readChunk = '';
     const data = [];
     strArr.forEach(line => {
-      const lineObj = processLine(line, this.readMapCur, this.doc.tzondevice);
-      if (lineObj) data.push(...lineObj);
+      if (line) {
+        const lineObj = processLine(line, this.readMapCur, this.doc.tzondevice);
+        if (lineObj) data.push(...lineObj);
+      }
     });
     if (data.length) {
       //const type = needUpsert(readMap, data) ? 'upsertChannels' : 'data';
@@ -82,26 +84,26 @@ function processLine(str, readMap, tzondevice) {
   if (!str.startsWith('{') || !str.endsWith('}')) return;
 
   try {
-    //console.log('processLine try parse' + str);   
     const obj = JSON.parse(str);
     const title = getTitle(obj);
     const arr = [];
     //return { id: readMap[obj.type + '_' + obj.address], title, ...obj };
     //return { id: readMap[obj.address], title, ...obj };
-   //holder.emit('debug', 'plugin_' + this.id, 'TZ: ' + util.inspect(this.doc.tzondevice));
     if (tzondevice && Number(obj.type) > 15) {
       obj.ts = obj.ts + Number(tzondevice) * (-3600000);
     }
-    readMap[obj.address].forEach(item => {
-     if (item.bit) {
-      obj.value = obj.value & Math.pow(2, Number(item.offset)) ? 1 : 0;
-     }
-      arr.push({ id: item._id, title, ASDU: obj.ASDU, value: obj.value, chstatus: obj.chstatus, ts: obj.ts })
-    })
-    return arr;
-    
+    if (readMap[obj.address]) {
+      readMap[obj.address].forEach(item => {
+        if (item.bit) {
+          obj.value = obj.value & Math.pow(2, Number(item.offset)) ? 1 : 0;
+        }
+        arr.push({ id: item._id, title, ASDU: obj.ASDU, value: obj.value, chstatus: obj.chstatus, ts: obj.ts })
+      })
+      return arr;
+    } else return [];
+
+
   } catch (e) {
-    holder.emit('debug', 'plugin_' + this.id, 'ERROR: ' + util.inspect(e));
     console.log('ERROR: ' + util.inspect(e));
   }
 }
