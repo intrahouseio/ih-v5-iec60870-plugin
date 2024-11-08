@@ -11,6 +11,8 @@
   "spacing": 10,
 
   "p1": [
+    { "prop": "id", "title": "ID", "type": "text" },
+    { "prop": "name", "title": "$Name", "type": "input" },
     {
       "prop": "host",
       "title": "IP",

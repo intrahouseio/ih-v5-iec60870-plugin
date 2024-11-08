@@ -40,7 +40,7 @@ module.exports = {
     }
     if (!this.readChunk) return;
     //holder.emit('debug', 'plugin_' + this.id, 'readMap = '+util.inspect(Object.keys(this.readMap)));
-    holder.emit('debug', 'plugin_' + this.id, this.readChunk); // выдает в отладчик все строки
+    holder.emit('debug', 'plugin_' + this.id, Date.now() + " " + this.readChunk); // выдает в отладчик все строки
 
     // Нужно парсить входящие стороки и формировать значения каналов
     // Может быть подряд несколько строк
@@ -82,29 +82,39 @@ function processLine(str, readMap, tzondevice) {
   // console.log('processLine ' + str);
   str = allTrim(str);
   if (!str.startsWith('{') || !str.endsWith('}')) return;
-
+  let obj = {};
   try {
-    const obj = JSON.parse(str);
-    const title = getTitle(obj);
-    const arr = [];
-    //return { id: readMap[obj.type + '_' + obj.address], title, ...obj };
-    //return { id: readMap[obj.address], title, ...obj };
-    if (tzondevice && Number(obj.type) > 15) {
-      obj.ts = obj.ts + Number(tzondevice) * (-3600000);
+    obj = JSON.parse(str);
+  } catch (e) {
+    //console.log('ERROR: ' + util.inspect(e));
+    if (str.lastIndexOf('}') == str.indexOf('}')) {
+      if (str.lastIndexOf('{') != str.indexOf('{')) {
+        str = str.substring(str.lastIndexOf('{'), str.lastIndexOf('}') + 1);
+        obj = JSON.parse(str);
+      }
     }
-    if (readMap[obj.address]) {
-      readMap[obj.address].forEach(item => {
+  }
+  const title = getTitle(obj);
+  const arr = [];
+  //return { id: readMap[obj.type + '_' + obj.address], title, ...obj };
+  //return { id: readMap[obj.address], title, ...obj };
+  if (tzondevice && Number(obj.type) > 15) {
+    obj.ts = obj.ts + Number(tzondevice) * (-3600000);
+  }
+  if (readMap[obj.address]) {
+    readMap[obj.address].forEach(item => {
+      if (item.ioObjMtype == obj.type) {
         if (item.bit) {
           obj.value = obj.value & Math.pow(2, Number(item.offset)) ? 1 : 0;
         }
-        arr.push({ id: item._id, title, ASDU: obj.ASDU, value: obj.value, chstatus: obj.chstatus, ts: obj.ts })
-      })
-      return arr;
-    } else return [];
-
-
-  } catch (e) {
-    console.log('ERROR: ' + util.inspect(e));
+        arr.push({ id: item._id, title, address: obj.address, ASDU: obj.ASDU, value: obj.value, chstatus: obj.chstatus, ts: obj.ts })
+      }
+    })
+  }
+  if (arr.length > 0) {
+    return arr;
+  } else {
+    return [];
   }
 }
 

@@ -21,6 +21,7 @@
 
   "channel_popup": {
     "add":[
+    { "id": "channel_folder", "title": "$NewFolder" },
     { "id": "channel_read", "title": "$ChannelRead" },
     { "id": "channel_write", "title": "$ChannelWrite" }
     ],
@@ -30,6 +31,7 @@
 
   "channel_folder_popup": {
     "add":[
+    { "id": "channel_folder", "title": "$NewFolder" },
     { "id": "channel_read", "title": "$ChannelRead" },
     { "id": "channel_write", "title": "$ChannelWrite" }
     ],

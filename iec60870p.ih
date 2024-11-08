@@ -2,5 +2,5 @@
   "id":"iec60870p",
   "description":"Client for 60870-5-104",
   "cross":false,
-	"version":"5.5.10"
+	"version":"5.5.11"
 }
