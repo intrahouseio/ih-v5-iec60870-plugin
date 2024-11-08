@@ -18,7 +18,7 @@
 
 
 static bool running = true;
-char buffer[10000] = "";
+char buffer[BUF_SIZE] = "";
 char str[200]; 
 
 void sigint_handler(int signalId) { running = false; }
@@ -63,12 +63,21 @@ static void connectionHandler(void *parameter, CS104_Connection connection,
 }
 
 void bufferConcat() {
-  if (strlen(buffer) + strlen(str) < 10000) {
+  if (strlen(buffer) + strlen(str) < BUF_SIZE) {
+    #ifdef __WIN32__
+      strcat_s(buffer, BUF_SIZE, str);
+    #else  
     strcat(buffer, str);
+    #endif
+    
   } else {
     printf("%s", buffer);
-    memset(buffer, 0, 10000);
+    memset(buffer, 0, BUF_SIZE);
+    #ifdef __WIN32__
+      strcat_s(buffer, BUF_SIZE, str);
+    #else  
     strcat(buffer, str);
+    #endif
   }
 }
 
@@ -77,6 +86,7 @@ void sendFloatData(int typeID, int address, float value, int q, long long ts)
   sprintf(str, "{\"ASDU\":\"%s\", \"type\":\"%i\", \"address\":%i, \"value\":%f, \"chstatus\":%i, \"ts\":%llu}\n",
          TypeID_toString(typeID), typeID, address, value, q, ts);
          bufferConcat();
+
 }
 
 void sendIntData(int typeID, int address, int value, int q, long long ts)
@@ -390,6 +400,10 @@ static bool asduReceivedHandler(void *parameter, int address, CS101_ASDU asdu)
     memset(buffer, 0, 10000);
     strcat(buffer, str);
   }*/
+    if (strlen(buffer)>0) {
+        printf("%s", buffer);
+        memset(buffer, 0, BUF_SIZE);
+    }
   
   return true;
 }
@@ -772,10 +786,10 @@ int main(int argc, char **argv)
           processStdinCommand(con);
       }  
       #endif
-      if (strlen(buffer)>0) {
+      /*if (strlen(buffer)>0) {
         printf("%s", buffer);
-        memset(buffer, 0, 10000);
-      }
+        memset(buffer, 0, BUF_SIZE);
+      }*/
 
     }
   }
