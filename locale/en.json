@@ -1,6 +1,8 @@
 {
     "transport":"Transport",
     "port":"Port",
+    "host_redundancy": "Redundancy host",
+    "use_redundancy": "Use Redundancy",
     "timeout":"Waiting for response to request (ms)",
     "polldelay":"Interval between requests (ms)",
     "maxreadlen":"Max number of words when reading range",

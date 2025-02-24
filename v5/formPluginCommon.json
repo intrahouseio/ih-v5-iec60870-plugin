@@ -19,6 +19,19 @@
       "type": "input",
       "default": "192.168.0.250"
     },
+    {
+      "prop" : "use_redundancy",
+      "title": "$use_redundancy",
+      "type": "cb",
+      "default": false
+    },
+     {
+      "prop": "host_redundancy",
+      "title": "$host_redundancy",
+      "hide": "!data.p1.use_redundancy",
+      "type": "input",
+      "default": "192.168.0.251"
+    },
 
     {
       "prop": "port",

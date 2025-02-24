@@ -1,58 +1,59 @@
 {
   "description": "Client 60870-5-104",
   "//module": "bin/client104_darwin_arm64",
-  "module": { 
+  "module": {
     "linux": {
       "amd64": "bin/client104_linux_amd64",
       "arm": "bin/client104_linux_arm",
-      "arm64" : "bin/client104_linux_arm64"
+      "arm64": "bin/client104_linux_arm64"
     },
     "darwin": {
-      "amd64": "bin/client104_darwin_arm64"
+      "arm64": "bin/client104_darwin_arm64"
     },
     "windows": {
       "amd64": "bin/client104_windows_amd64.exe"
     }
   },
-  
+
   "single": 0,
   "spawn": 1,
-  "innerId":1,
+  "innerId": 1,
+
+  "ext": [{ "prop": "currentIP", "note": "Текущий IP", "vtype": "S" }],
 
   "channel_popup": {
-    "add":[
-    { "id": "channel_folder", "title": "$NewFolder" },
-    { "id": "channel_read", "title": "$ChannelRead" },
-    { "id": "channel_write", "title": "$ChannelWrite" }
+    "add": [
+      { "id": "channel_folder", "title": "$NewFolder" },
+      { "id": "channel_read", "title": "$ChannelRead" },
+      { "id": "channel_write", "title": "$ChannelWrite" }
     ],
-    "copypaste":true,
-    "delete":true
+    "copypaste": true,
+    "delete": true
   },
 
   "channel_folder_popup": {
-    "add":[
-    { "id": "channel_folder", "title": "$NewFolder" },
-    { "id": "channel_read", "title": "$ChannelRead" },
-    { "id": "channel_write", "title": "$ChannelWrite" }
+    "add": [
+      { "id": "channel_folder", "title": "$NewFolder" },
+      { "id": "channel_read", "title": "$ChannelRead" },
+      { "id": "channel_write", "title": "$ChannelWrite" }
     ],
-    "copypaste":true,
-    "delete":true
+    "copypaste": true,
+    "delete": true
   },
 
-
   "default_channel_read": {
-    "r":1,
+    "r": 1,
     "title": "Control Object 1",
     "bit": 0,
     "offset": 0,
-    "ioObjMtype":  "1"
+    "ioObjMtype": "1"
   },
 
   "default_channel_write": {
-    "w":1,
+    "w": 1,
     "title": "Command Object 1",
     "ioObjCtype": "45",
-    "selCmd" : false,
+    "selCmd": false,
     "ql": "0"
   }
 }

@@ -12,9 +12,24 @@
 const util = require('util');
 
 module.exports = {
+  
   // Отдает аргументы для командной строки
-  getArgs() {
-    return [this.doc.host, this.doc.port, this.doc.originatorAddress,
+  getArgs(holder) {
+    let host = this.doc.host;
+    if (this.doc.use_redundancy) {
+      if (this.tryswitch && this.doc.host_redundancy) {
+        if (!this.workhost) {
+          host = this.doc.host_redundancy;
+          this.workhost = 1;
+        } else {
+          this.workhost = 0;
+        }
+      }
+    } 
+    this.tryswitch = 0;
+    if (holder) holder.emit('received:device:data', { [this.dn]: {currentIP: host } });
+    
+    return [host, this.doc.port, this.doc.originatorAddress,
     this.doc.k, this.doc.w, this.doc.t0, this.doc.t1, this.doc.t2, this.doc.t3];
   },
 
@@ -32,6 +47,16 @@ module.exports = {
     }
 
     let str = stdin.toString();
+    if (this.doc.use_redundancy) {
+      if (str.startsWith('Connect failed') || str.startsWith('Connection closed')) {
+        let msg = str;
+        if (this.doc.host_redundancy) msg += " Try swith IP: "+(this.workhost ? this.doc.host : this.doc.host_redundancy );
+        this.tryswitch = 1;
+        holder.emit('debug', 'plugin_' + this.id, msg);
+        return;
+      }
+    }
+    
     if (str.substr(-1) != '\n') {
       this.readChunk += str;
       return { type: 'data', data: [] };
