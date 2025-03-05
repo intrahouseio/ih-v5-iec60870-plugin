@@ -148,7 +148,7 @@ function getTitle(obj) {
   if (!isNaN(strtype) && Number(obj.type) < 10) {
     strtype = '0' + strtype;
   }
-  return 'IObj' + strtype + obj.ASDU.substr(0, 7) + '(' + obj.address + ')';
+  return 'IObj' + strtype + obj.ASDU == undefined ? '' : obj.ASDU.substr(0, 7) + '(' + obj.address + ')';
 }
 
 function allTrim(str) {
